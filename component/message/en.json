@@ -1,0 +1,56 @@
+{
+    "app": {
+        "title": "Spatially cumulative sum change detection (GPU)",
+        "drawer_item": {
+            "about": "About",
+            "cumsum": "Process"
+        }
+    },
+    "widget": {
+        "advance_params": "Advanced parameters",
+        "folder": {
+            "label": "Select Folder",
+            "no_ts": "the folder {} is not a valid SEPAL time series folder. please select a valid Time series folder",
+            "valid_ts": "using the {} time series folder",
+            "no_folder": "No folder has been selected"
+        },
+        "tiles": {
+            "label": "Select the tiles to use",
+            "no_tiles": "No tiles have been selected"
+        },
+        "out_dir": {
+            "label": "Output directory",
+            "hint": "The output foder will be created automatically based on the basename of your time series. You can still modify it.",
+            "no_dir": "No name have been provided for the output directory"
+        },
+        
+        "period": {
+            "label": "Period of change analysis (subset):",
+            "no_dates": "No range of monitoring have been provided",
+            "bad_order": "The provided date does not respect the chronological order: start of period must be before end of period."
+        },
+        "bstraps": {
+            "label": "Number of bootstraps for confidence measure:",
+            "no_bstraps": "No value for bootstraps has been provided"
+        },
+        "area_thld": {
+            "label": "Percentage of area with expected change",
+            "no_area_thld": "No value for area threshold has been provided"
+        },
+        "conf_thld": {
+            "label": "Confidence threshold for accepting detected changes",
+            "no_conf_thld": "No value for area threshold has been provided"
+        }
+
+    },
+    "cumsum": {
+        "folder": "Select time series folder",
+        "process": "Select process parameters",
+        "periods": "Select a time period subset",
+        "btn": "Launch CUMSUM change analysis",
+        "sum_up": "Process {} windows in tile {}",
+        "complete": "CUMSUM Output saved in: \"{}\"",
+        "progress": "Images analysed in Tile {}",
+        "skip": "Skipping tile {}"
+    }
+}
