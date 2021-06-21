@@ -145,7 +145,9 @@ def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, 
     outdir = cp.result_dir/outdir
     outdir.mkdir(exist_ok=True, parents=True)
     result_file = outdir.joinpath(f'cumsum_results.tif')
-        
+    
+    # create list of args for parallel processing
+    args_list, outfiles = [], [] 
     for tile in tiles:
         
         # get the dates files
@@ -174,8 +176,7 @@ def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, 
                 'threshold_change_confidence': conf_thld
                 }
 
-        # create list of args for parallel processing
-        args_list, outfiles = [], []
+        # fill in lists for processing
         for sub_stack in sub_stack_files:
             outname = Path(sub_stack).parent.stem
             outfile = outdir.joinpath(f'{tile}_{outname}.tiff')
