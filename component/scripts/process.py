@@ -144,7 +144,13 @@ def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, 
     # create output folder and file
     outdir = cp.result_dir/outdir
     outdir.mkdir(exist_ok=True, parents=True)
-    result_file = outdir.joinpath(f'cumsum_results.tif')
+    
+    start = str(period[0])[:10] 
+    end = str((period[-1] + timedelta(days=32)).replace(day=1) - timedelta(days=1))[:10]
+        
+    result_file = outdir.joinpath(
+        f'cumsum_results_{start}_{end}_{str(bstraps)}_{str(area_thld)}_{str(conf_thld)}.tif'
+    )
     
     # create list of args for parallel processing
     args_list, outfiles = [], [] 
