@@ -127,6 +127,7 @@ def main(args_list):
 
                 # get confidence from bootstrap procedure
                 confidences = bootstrap(residuals, s_diff, nr_bootstraps).numpy()
+                confidences[confidences<threshold_change] = 0
                 confidences[s_diff==0] = 0
                 # set change pixels with 0 confidence to 0
                 change[confidences<threshold_change] = 0
