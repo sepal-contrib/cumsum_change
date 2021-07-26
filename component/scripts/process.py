@@ -197,9 +197,6 @@ def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, 
             max_workers=os.cpu_count()
         ) as executor:
             executor.map(main, args_list)
-    #for args in args_list:
-        
-    #    main(args)
         
     out.add_live_msg('Merging tiles to final result file.')
     # merge tiles as vrt 
