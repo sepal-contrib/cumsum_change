@@ -127,6 +127,7 @@ def main(args_list):
 
                 # get confidence from bootstrap procedure
                 confidences = bootstrap(residuals, s_diff, nr_bootstraps).numpy()
+                confidences[confidences<threshold_change] = 0
                 confidences[s_diff==0] = 0
                 # set change pixels with 0 confidence to 0
                 change[confidences<threshold_change] = 0
@@ -196,9 +197,6 @@ def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, 
             max_workers=os.cpu_count()
         ) as executor:
             executor.map(main, args_list)
-    #for args in args_list:
-        
-    #    main(args)
         
     out.add_live_msg('Merging tiles to final result file.')
     # merge tiles as vrt 

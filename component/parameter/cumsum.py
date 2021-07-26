@@ -1,2 +1,2 @@
 # minimum number of images in the historical period to give accurate results
-min_images = 10 
+min_images = 5

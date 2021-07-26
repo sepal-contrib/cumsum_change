@@ -20,11 +20,8 @@ class CumSumTile(sw.Tile):
         self.out_dir = cw.OutDirSelect()
         self.tiles = cw.TilesSelect()
         self.bstraps = v.Slider(label=cm.widget.bstraps.label, v_model=1000, min=10, max=1000, thumb_label="always", class_='mt-5')
-        self.area_thld = v.Slider(
-            label=cm.widget.area_thld.label, v_model=50, step=1, min=0, max=95, thumb_label="always", class_='mt-5'
-        )
         self.conf_thld = v.Slider(
-            label=cm.widget.conf_thld.label, v_model=.25, step=.05, min=0, max=.95, thumb_label="always", class_='mt-5'
+            label=cm.widget.conf_thld.label, v_model=.15, step=.05, min=0, max=.95, thumb_label="always", class_='mt-5'
         )
         self.period = cw.DateRangeSlider(label=cm.widget.period.label)
         
@@ -34,7 +31,6 @@ class CumSumTile(sw.Tile):
                 v.ExpansionPanelHeader(children=[cm.widget.advance_params]),
                 v.ExpansionPanelContent(children=[
                     v.Flex(xs12=True, children=[self.bstraps]),
-                    v.Flex(xs12=True, children=[self.area_thld]),
                     v.Flex(xs12=True, children=[self.conf_thld])
                 ])
             ])
@@ -70,7 +66,7 @@ class CumSumTile(sw.Tile):
         out_dir = self.out_dir.v_model
         tiles = self.tiles.v_model
         bstraps = self.bstraps.v_model
-        area_thld = self.area_thld.v_model
+        area_thld = 0
         conf_thld = self.conf_thld.v_model
         period = self.period.v_model
         
@@ -80,7 +76,6 @@ class CumSumTile(sw.Tile):
         if not self.alert.check_input(tiles, cm.widget.tiles.no_tiles): return 
         if not self.alert.check_input(period, cm.widget.period.no_dates): return 
         if not self.alert.check_input(bstraps, cm.widget.bstraps.no_bstraps): return 
-        if not self.alert.check_input(area_thld, cm.widget.area_thld.no_area_thld): return 
         if not self.alert.check_input(conf_thld, cm.widget.conf_thld.no_conf_thld): return 
            
         # run the cumsum process

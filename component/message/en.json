@@ -27,7 +27,8 @@
         "period": {
             "label": "Period of change analysis (subset):",
             "no_dates": "No range of monitoring have been provided",
-            "bad_order": "The provided date does not respect the chronological order: start of period must be before end of period."
+            "bad_order": "The provided date does not respect the chronological order: start of period must be before end of period.",
+            "too_short": "The period is too short for analysis."
         },
         "bstraps": {
             "label": "Number of bootstraps for confidence measure:",
