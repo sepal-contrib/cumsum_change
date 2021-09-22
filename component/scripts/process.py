@@ -4,7 +4,7 @@ from datetime import timedelta
 from pathlib import Path
 import concurrent.futures
 
-import gdal
+from osgeo import gdal
 import pandas as pd
 import numpy as np
 import rasterio as rio
