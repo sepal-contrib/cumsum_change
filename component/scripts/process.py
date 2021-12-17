@@ -255,12 +255,15 @@ def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, 
     for file in outfiles:
         Path(file).unlink()
 
+    # export to alert module
     if alert_module:
+        # we need a shapefile without dots for EE upload in alerts module
+        result_shp = result_file.parent.joinpath(result_file.stem.replace('.', '_') + '_alert_aoi.shp')
         prepare_for_alert_module(
             result_file,
             result_file.with_suffix('.alert_date.tif'),
             result_file.with_suffix('.alert_mask.tif'),
-            result_file.with_suffix('.alert_aoi.shp')
+            result_shp
         )
 
 def prepare_for_alert_module(cusum_change_file, out_date, out_mask, out_aoi):
