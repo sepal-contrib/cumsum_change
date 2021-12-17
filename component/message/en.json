@@ -41,8 +41,11 @@
         "conf_thld": {
             "label": "Confidence threshold for accepting detected changes",
             "no_conf_thld": "No value for area threshold has been provided"
+        },
+        "alert_module": {
+            "label": "Export files compatible with the Alert Module",
+            "no_conf_thld": "No value for area threshold has been provided"
         }
-
     },
     "cumsum": {
         "folder": "Select time series folder",

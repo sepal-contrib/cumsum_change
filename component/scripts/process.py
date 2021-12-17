@@ -139,7 +139,7 @@ def main(args_list):
                 dst.write(out_stack, window=window)
                 
 
-def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, out):
+def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, out, alert_module=False):
     
     out.add_live_msg('Preparing processing')
     # create output folder and file
@@ -231,7 +231,62 @@ def run_cumsum(ts_folder, outdir, tiles, period, bstraps, area_thld, conf_thld, 
     for file in outfiles:
         Path(file).unlink()
 
+    if alert_module:
+        prepare_for_alert_module(
+            result_file,
+            result_file.with_suffix('.alert_date.tif'),
+            result_file.with_suffix('.alert_mask.tif'),
+            result_file.with_suffix('.alert_aoi.shp')
+        )
 
+def prepare_for_alert_module(cusum_change_file, out_date, out_mask, out_aoi):
+    
+    import rasterio as rio
+    import numpy as np
+    from shapely.geometry import box, mapping
+    import fiona
+    
+    with rio.open(cusum_change_file) as src:
+        meta = src.meta
+        arr = src.read(1)
+        bounds = src.bounds
+        crs = src.crs.to_dict()
+        
+    # create a datetime array that is year 1
+    year2000array = np.array((np.ones(arr.shape).ravel()).astype('int32').astype('str'), dtype='datetime64[D]')
+
+    # create a datetime array with the YEAR of change
+    yearChangeArray = np.array(np.floor(arr.ravel()).astype('int32').astype('str'), dtype='datetime64[D]')
+
+    # create an array with the doy
+    add_change_days = np.round((arr.ravel() - np.floor(arr.ravel())) * 365).astype('int32')
+
+    # create timedelta
+    timedelta_days = ((yearChangeArray - year2000array).astype('int32') - add_change_days).reshape(arr.shape)
+
+    # reset 0s to 0s
+    timedelta_days[arr == 0] = 0
+    mask = np.nan_to_num(timedelta_days/timedelta_days).astype('uint8')
+
+    meta.update(count=1, tiled=True)
+    with rio.open(out_date, 'w', **meta) as dst:
+        dst.write(timedelta_days.astype('float32'), 1)
+
+    meta.update(dtype='uint8') 
+    with rio.open(out_mask, 'w', **meta) as dst:
+        dst.write(mask, 1)
+        
+    # AOI
+    # create a Polygon from the raster bounds
+    bbox = box(*bounds)
+    # create a schema with no properties
+    schema = {'geometry': 'Polygon', 'properties': {}}
+
+    # create shapefile
+    with fiona.open(out_aoi, 'w', driver='ESRI Shapefile', crs=crs, schema=schema) as c:
+        c.write({'geometry': mapping(bbox), 'properties': {}})
+        
+        
 def write_logs(log_file, start, end):
 
     with log_file.open('w') as f: 
