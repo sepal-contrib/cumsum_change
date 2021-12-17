@@ -37,6 +37,8 @@ class CumSumTile(sw.Tile):
             class_="mt-5",
         )
         self.period = cw.DateRangeSlider(label=cm.widget.period.label)
+        self.alert_module_out = v.Switch(class_ = "ml-5",label = cm.widget.alert_module.label, v_model = False)
+
 
         # stack the advance parameters in a expandpanel
         advance_params = v.ExpansionPanels(
@@ -69,6 +71,7 @@ class CumSumTile(sw.Tile):
                 advance_params,
                 v.Html(tag="h2", children=[cm.cumsum.periods]),
                 self.period,
+                self.alert_module_out
             ],
             alert=cw.CustomAlert(),
             btn=sw.Btn(cm.cumsum.btn),
@@ -91,7 +94,8 @@ class CumSumTile(sw.Tile):
         area_thld = 0
         conf_thld = self.conf_thld.v_model
         period = self.period.v_model
-
+        alert_module_out = self.alert_module_out
+        
         # check the inputs
         if not self.alert.check_input(folder, cm.widget.folder.no_folder):
             return
@@ -105,7 +109,9 @@ class CumSumTile(sw.Tile):
             return
         if not self.alert.check_input(conf_thld, cm.widget.conf_thld.no_conf_thld):
             return
-
+        if not self.alert.check_input(alert_module_out, cm.widget.conf_thld.no_conf_thld): 
+            return 
+        
         # run the cumsum process
         cs.run_cumsum(
             Path(folder),
@@ -116,6 +122,7 @@ class CumSumTile(sw.Tile):
             area_thld,
             conf_thld,
             self.alert,
+            self.alert_module_out
         )
 
         # display the end of computation message
