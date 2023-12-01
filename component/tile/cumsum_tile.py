@@ -13,7 +13,6 @@ from component import parameter as cp
 
 class CumSumTile(sw.Tile):
     def __init__(self):
-
         # create the different widgets
         # I will not use Io as the information doesn't need to be communicated to any other tile
         self.folder = cw.FolderSelect()
@@ -37,8 +36,9 @@ class CumSumTile(sw.Tile):
             class_="mt-5",
         )
         self.period = cw.DateRangeSlider(label=cm.widget.period.label)
-        self.alert_module_out = v.Switch(class_ = "ml-5",label = cm.widget.alert_module.label, v_model = False)
-
+        self.alert_module_out = v.Switch(
+            class_="ml-5", label=cm.widget.alert_module.label, v_model=False
+        )
 
         # stack the advance parameters in a expandpanel
         advance_params = v.ExpansionPanels(
@@ -71,7 +71,7 @@ class CumSumTile(sw.Tile):
                 advance_params,
                 v.Html(tag="h2", children=[cm.cumsum.periods]),
                 self.period,
-                self.alert_module_out
+                self.alert_module_out,
             ],
             alert=cw.CustomAlert(),
             btn=sw.Btn(cm.cumsum.btn),
@@ -82,7 +82,7 @@ class CumSumTile(sw.Tile):
         self.btn.on_event("click", self._start_process)
         self.period.observe(self._check_periods, "v_model")
 
-    @su.loading_button(debug=True)
+    @su.loading_button()
     def _start_process(self, widget, event, data):
         """start the cumsum process"""
 
@@ -95,7 +95,7 @@ class CumSumTile(sw.Tile):
         conf_thld = self.conf_thld.v_model
         period = self.period.v_model
         alert_module_out = self.alert_module_out
-        
+
         # check the inputs
         if not self.alert.check_input(folder, cm.widget.folder.no_folder):
             return
@@ -109,9 +109,11 @@ class CumSumTile(sw.Tile):
             return
         if not self.alert.check_input(conf_thld, cm.widget.conf_thld.no_conf_thld):
             return
-        if not self.alert.check_input(alert_module_out, cm.widget.conf_thld.no_conf_thld): 
-            return 
-        
+        if not self.alert.check_input(
+            alert_module_out, cm.widget.conf_thld.no_conf_thld
+        ):
+            return
+
         # run the cumsum process
         cs.run_cumsum(
             Path(folder),
@@ -122,7 +124,7 @@ class CumSumTile(sw.Tile):
             area_thld,
             conf_thld,
             self.alert,
-            self.alert_module_out
+            self.alert_module_out,
         )
 
         # display the end of computation message
@@ -143,7 +145,6 @@ class CumSumTile(sw.Tile):
 
         # check if it's a time series folder
         if not self.folder.is_valid_ts():
-
             # reset the non working inputs
             self.period.disable()
             self.tiles.reset()
