@@ -1,4 +1,5 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # 3 means ERROR and higher messages are logged
 import time
 from datetime import timedelta
 from pathlib import Path
