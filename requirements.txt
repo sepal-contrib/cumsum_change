@@ -1,10 +1,10 @@
 voila
 earthengine-api
 
-sepal_ui==2.17
+git+https://github.com/12rambau/sepal_ui.git@sepal_pre_release
 
 # custom libs
-GDAL==3.6.4
+GDAL==3.8.3
 tensorflow_probability
 tensorflow
 pandas
