@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*nox_ui.ipynb
+*Untitled*
+
 
 # C extensions
 *.so
