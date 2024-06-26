@@ -11,3 +11,4 @@ pandas
 rasterio
 
 # trigger build
+tf-keras # now required TF-Keras is not installed by default when you install TensorFlow Probability
