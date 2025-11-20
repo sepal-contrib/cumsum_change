@@ -1,0 +1,17 @@
+name: cumsum_change
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pyproj
+  - gdal=3.8.3
+  - tensorflow
+  - tensorflow-probability
+  - pandas
+  - tf-keras
+  - pip
+  - pip:
+    - sepal_ui==2.21.0
+    - git+https://github.com/openforis/earthengine-api.git@v1.1.5rc0
